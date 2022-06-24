@@ -1,16 +1,20 @@
+
+//ompartation du package de pour hasher les mot de passe
 const bcrypt = require('bcrypt')
+//importation du package jsonwebtoken pour les jeton d'authentification
 const jwt = require('jsonwebtoken')
 
 const User = require('../models/user')
 const path = require('path');
 require('dotenv').config({ path: require('find-config')('.env') })
 
+//regex pour les email
 const validateEmail = (email) => {
     return email.match(
         /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 };
-
+// fonction inscription
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {

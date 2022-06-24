@@ -1,11 +1,16 @@
+//on appel le model stocker dans la bdd
 const Post = require('../models/post');
 const Service = require('../services/admin.service');
 const modelUser = require('../models/user');
 
+//fs permetla gestion des requete entrante comme les image  et donc comment les gere  ou les stocker
 const fs = require('fs');
+
+//importation du package jsonwebtoken pour les jeton d'authentification
 const jwt = require("jsonwebtoken");
 const {models} = require("mongoose");
 
+//creation du post
 exports.create = (req, res, next) => {
     const postObj = JSON.parse(req.body.post);
     delete postObj._id;
@@ -17,19 +22,19 @@ exports.create = (req, res, next) => {
         .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
         .catch(error => res.status(400).json({ error }));
 }
-
+//appelle de tout les post anthechronologique  avec "desc"
 exports.getAll = (req, res, next) => {
     Post.find().sort({date: "desc"})
         .then(posts => res.status(200).json(posts))
         .catch(error => res.status(400).json({ error }));
 }
-
+//apelle d'un seul post filter avec l'id du post
 exports.getOne = (req, res, next) => {
     Post.findOne({ _id: req.params.id })
         .then(posts => res.status(200).json(posts))
         .catch(error => res.status(404).json({ error }));
 }
-
+//modificdation d'un seul post
 exports.update = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.decode(token);
@@ -54,7 +59,7 @@ exports.update = (req, res, next) => {
         })
         .catch(error => res.status(400).json({ error }))
 }
-
+// suppression du post et des droit administrateur egalement
 exports.delete = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.decode(token);
@@ -78,7 +83,7 @@ exports.delete = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }));
 }
-
+// aimer ou ne pas aimer un post
 exports.likeOrNot = (req, res, next) => {
     if (req.body.like === 1) {
         Post.updateOne({ _id: req.params.id }, { $inc: { likes: req.body.like++ }, $push: { usersLiked: req.body.userId } })
