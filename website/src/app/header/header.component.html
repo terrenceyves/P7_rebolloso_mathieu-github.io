@@ -1,0 +1,24 @@
+<div class="nav">
+  <input type="checkbox" id="nav-check">
+  <div class="nav-header">
+    <div class="nav-title" routerLink="" routerLinkActive="active">
+      <img style="width: 200px" src="https://i.ibb.co/xHGDgcv/icon-left-font-2.png" alt="">
+    </div>
+  </div>
+  <div class="nav-btn">
+    <label for="nav-check">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </div>
+
+  <div class="nav-links">
+    <a routerLink="" routerLinkActive="active" *ngIf="isAuth$ | async">Accueil</a>
+    <a routerLink="" routerLinkActive="active" *ngIf="isAdmin$ | async">Admin</a>
+    <a routerLink="new-post" routerLinkActive="active" *ngIf="isAuth$ | async">Créer un post</a>
+    <a routerLink="signup" routerLinkActive="active" *ngIf="!(isAuth$ | async)">Inscription</a>
+    <a routerLink="login" routerLinkActive="active" *ngIf="!(isAuth$ | async)">Connexion</a>
+    <a (click)="onLogout()" *ngIf="isAuth$ | async">Se déconnecter</a>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<mat-spinner *ngIf="loading"></mat-spinner>
+<ng-container *ngIf="postsArray$ | async as postsFeed">
+  <p *ngIf="!loading && postsFeed.length <= 0">
+    No posts to display!
+  </p>
+
+  <div class="content" *ngIf="!loading && postsFeed.length > 0">
+    <div class="col-6 offset-3" *ngIf="!loading && postsFeed.length  > 0">
+      <div class="card" *ngFor="let post of postsFeed" (click)="onClickPost(post._id)">
+        <div class="card-block">
+          <div class="">
+            <div class="">
+              <img [src]="post.imageUrl" class="profile-pic">
+            </div>
+            <div class="col-10 profile-row p-2">
+              <div class="row">
+                <h4>{{ post.name | uppercase }}</h4>
+              </div>
+              <div class="row" style="margin-top: -.7rem">
+              </div>
+            </div>
+          </div>
+          <p class="p-2" style="margin-top: -1.5rem">{{ post.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
