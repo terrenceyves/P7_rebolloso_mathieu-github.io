@@ -1,8 +1,10 @@
 const Post = require('../models/post');
 const Service = require('../services/admin.service');
+const modelUser = require('../models/user');
 
 const fs = require('fs');
 const jwt = require("jsonwebtoken");
+const {models} = require("mongoose");
 
 exports.create = (req, res, next) => {
     const postObj = JSON.parse(req.body.post);
@@ -17,7 +19,7 @@ exports.create = (req, res, next) => {
 }
 
 exports.getAll = (req, res, next) => {
-    Post.find()
+    Post.find().sort({date: "desc"})
         .then(posts => res.status(200).json(posts))
         .catch(error => res.status(400).json({ error }));
 }

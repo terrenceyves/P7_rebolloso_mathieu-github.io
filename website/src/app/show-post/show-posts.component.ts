@@ -13,7 +13,7 @@ import { catchError, EMPTY, map, Observable, of, switchMap, take, tap } from 'rx
 export class ShowPostsComponent implements OnInit {
 
   loading!: boolean;
-  sauce$!: Observable<Post>;
+  post$!: Observable<Post>;
   isAdmin$!: Observable<boolean>;
   userId!: string;
   likePending!: boolean;
@@ -22,24 +22,26 @@ export class ShowPostsComponent implements OnInit {
   errorMessage!: string;
   admin!: boolean;
 
-  constructor(private sauces: PostsService,
+  constructor(private Post: PostsService,
     private route: ActivatedRoute,
     public auth: AuthService,
     private router: Router) { }
 
   ngOnInit() {
+    //Permet de checker si l'utilisateur est un admin
     this.isAdmin$ = this.auth.isAdmin$;
+
     this.userId = this.auth.getUserId();
     this.loading = true;
     this.userId = this.auth.getUserId();
-    this.sauce$ = this.route.params.pipe(
+    this.post$ = this.route.params.pipe(
       map(params => params['id']),
-      switchMap(id => this.sauces.getPostById(id)),
-      tap(sauce => {
+      switchMap(id => this.Post.getPostById(id)),
+      tap(post => {
         this.loading = false;
-        if (sauce.usersLiked.find(user => user === this.userId)) {
+        if (post.usersLiked.find(user => user === this.userId)) {
           this.liked = true;
-        } else if (sauce.usersDisliked.find(user => user === this.userId)) {
+        } else if (post.usersDisliked.find(user => user === this.userId)) {
           this.disliked = true;
         }
       })
@@ -51,15 +53,15 @@ export class ShowPostsComponent implements OnInit {
       return;
     }
     this.likePending = true;
-    this.sauce$.pipe(
+    this.post$.pipe(
       take(1),
-      switchMap((sauce: Post) => this.sauces.likePost(sauce._id, !this.liked).pipe(
+      switchMap((post: Post) => this.Post.likePost(post._id, !this.liked).pipe(
         tap(liked => {
           this.likePending = false;
           this.liked = liked;
         }),
-        map(liked => ({ ...sauce, likes: liked ? sauce.likes + 1 : sauce.likes - 1 })),
-        tap(sauce => this.sauce$ = of(sauce))
+        map(liked => ({ ...post, likes: liked ? post.likes + 1 : post.likes - 1 })),
+        tap(post => this.post$ = of(post))
       )),
     ).subscribe();
   }
@@ -69,15 +71,15 @@ export class ShowPostsComponent implements OnInit {
       return;
     }
     this.likePending = true;
-    this.sauce$.pipe(
+    this.post$.pipe(
       take(1),
-      switchMap((post: Post) => this.sauces.dislikePost(post._id, !this.disliked).pipe(
+      switchMap((post: Post) => this.Post.dislikePost(post._id, !this.disliked).pipe(
         tap(disliked => {
           this.likePending = false;
           this.disliked = disliked;
         }),
         map(disliked => ({ ...post, dislikes: disliked ? post.dislikes + 1 : post.dislikes - 1 })),
-        tap(post => this.sauce$ = of(post))
+        tap(post => this.post$ = of(post))
       )),
     ).subscribe();
   }
@@ -87,7 +89,7 @@ export class ShowPostsComponent implements OnInit {
   }
 
   onModify() {
-    this.sauce$.pipe(
+    this.post$.pipe(
       take(1),
       tap(post => this.router.navigate(['/update-post', post._id]))
     ).subscribe();
@@ -97,11 +99,10 @@ export class ShowPostsComponent implements OnInit {
     this.loading = true;
     let alert = confirm("Etes vous sur de vouloir supprimer ce post ?");
     if (alert) {
-      this.sauce$.pipe(
+      this.post$.pipe(
         take(1),
-        switchMap(sauce => this.sauces.deletePost(sauce._id)),
+        switchMap(post => this.Post.deletePost(post._id)),
         tap(message => {
-          console.log(message);
           this.loading = false;
           this.router.navigate(['/posts']);
         }),

@@ -1,23 +1,23 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 
-<div class="content" *ngIf="sauce$ | async as sauce">
+<div class="content" *ngIf="post$ | async as post">
   <div class="col-6 offset-3">
     <div class="card">
       <div class="card-block">
         <div class="">
           <div class="">
-            <img [src]="sauce?.imageUrl" class="profile-pic">
+            <img [src]="post?.imageUrl" class="profile-pic">
           </div>
           <div class="col-10 profile-row p-2">
             <div class="row">
-              <h4>{{ sauce?.name | uppercase }}</h4>
+              <h4>{{ post?.name | uppercase }}</h4>
             </div>
             <div class="row" style="margin-top: -.7rem">
-              <small class="post-time">{{ sauce.date | date: 'dd/MM/yyyy HH:mm' }}</small>
+              <small class="post-time">{{ post.date | date: 'dd/MM/yyyy HH:mm' }}</small>
             </div>
           </div>
         </div>
-        <p class="p-2" style="margin-top: -1.5rem; color: #4E5166">{{ sauce.description }}</p>
+        <p class="p-2" style="margin-top: -1.5rem; color: #4E5166">{{ post.description }}</p>
         <div>
         </div>
         <div>
@@ -25,16 +25,17 @@
             <div style="display: flex; margin-bottom: auto; margin-top: auto" class="like-buttons p-2" *ngIf="!likePending">
               <div class="likes">
                 <i [ngClass]="{ 'fas liked': liked, 'far': !liked, 'disabled': disliked }" class="like fa-thumbs-up fa-lg" (click)="onLike()"></i>
-                <span>{{ sauce.likes }}</span>
+                <span>{{ post.likes }}</span>
               </div>
               <div class="dislikes" style="margin-left: 1rem">
                 <i [ngClass]="{ 'fas disliked': disliked, 'far': !disliked, 'disabled': liked }" class="dislike fa-thumbs-down fa-lg" (click)="onDislike()"></i>
-                <span>{{ sauce.dislikes }}</span>
+                <span>{{ post.dislikes }}</span>
               </div>
             </div>
             <div style="margin-top: auto; margin-bottom: auto;" class="p-2">
-              <i class='far fa-edit' style='color:#6610f2; font-size: 24px' (click)="onModify()" *ngIf="(userId === sauce.userId) || (isAdmin$ | async)"></i>
-              <i class='far fa-trash-alt' style='color:#e83e8c; font-size: 24px; margin-left: .5rem' (click)="onDelete()" *ngIf="(userId === sauce.userId) || (isAdmin$ | async)"></i>
+              <!-- Si l'userId correspond au postUserId ou que l'user est admin alors il peut modifier -->
+              <i class='far fa-edit' style='color:#6610f2; font-size: 24px' (click)="onModify()" *ngIf="(userId === post.userId) || (isAdmin$ | async)"></i>
+              <i class='far fa-trash-alt' style='color:#e83e8c; font-size: 24px; margin-left: .5rem' (click)="onDelete()" *ngIf="(userId === post.userId) || (isAdmin$ | async)"></i>
             </div>
           </div>
         </div>

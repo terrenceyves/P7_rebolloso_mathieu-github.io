@@ -11,6 +11,7 @@ import jwt_decode from 'jwt-decode';
 export class AuthService {
 
   isAuth$ = new BehaviorSubject<boolean>(false);
+  //On dit que isAdmin est un boolean afin de checker si l'utilisateur est admin ou non
   isAdmin$ = new BehaviorSubject<boolean>(false);
   private authToken = '';
   private userId = '';
@@ -23,6 +24,7 @@ export class AuthService {
   }
 
   isAdmin() {
+    //On créer l'objet du JWT afin de le décoder et de séléctionner la clé que l'ont veut
     type JWTDeCode  = {
       admin: boolean,
       ext: number,
@@ -30,7 +32,10 @@ export class AuthService {
       userId: string
     }
 
+    //On decode le jwt
     const decoded : JWTDeCode = jwt_decode(this.getToken());
+
+    //Si admin = true alors l'utilisateur est admin sinon non
     if (decoded.admin) {
       this.isAdmin$.next(true);
     } else {
@@ -53,7 +58,6 @@ export class AuthService {
         this.authToken = token;
         this.isAuth$.next(true);
         this.isAdmin();
-        window.localStorage.setItem("role", token);
       })
     );
   }
@@ -62,7 +66,6 @@ export class AuthService {
     this.authToken = '';
     this.userId = '';
     this.isAuth$.next(false);
-    window.localStorage.clear();
     this.router.navigate(['login']);
   }
 

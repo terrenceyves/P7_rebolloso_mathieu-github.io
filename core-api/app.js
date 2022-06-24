@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const userRoutes = require('./routes/user');
 const postsRoute = require('./routes/post');
 const bodyParser= require('body-parser');
+
 const path = require('path');
+require('dotenv').config({ path: require('find-config')('.env') })
+
 
 //Permet de créer le serveur
 const app = express();
@@ -12,7 +15,7 @@ app.use(express.json());
 
 
 //connexion a la bdd
-mongoose.connect('mongodb+srv://mathoin:buDokail001@clusterp6.nbrbi.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect("mongodb+srv://"+process.env.USERNAME_BDD+":"+process.env.PASSWORD_BDD+"@"+process.env.SERVEUR_BDD+"/?retryWrites=true&w=majority",
     { useNewUrlParser: true,
         useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -25,6 +28,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
+
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))

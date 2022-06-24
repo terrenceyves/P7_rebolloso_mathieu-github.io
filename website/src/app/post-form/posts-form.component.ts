@@ -13,17 +13,17 @@ import { catchError, EMPTY, switchMap, tap } from 'rxjs';
 })
 export class PostsFormComponent implements OnInit {
 
-  sauceForm!: FormGroup;
+  postForm!: FormGroup;
   mode!: string;
   loading!: boolean;
-  sauce!: Post;
+  post!: Post;
   errorMsg!: string;
   imagePreview!: string;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
-              private sauces: PostsService,
+              private Post: PostsService,
               private auth: AuthService) { }
 
   ngOnInit() {
@@ -37,13 +37,13 @@ export class PostsFormComponent implements OnInit {
           return EMPTY;
         } else {
           this.mode = 'edit';
-          return this.sauces.getPostById(params['id'])
+          return this.Post.getPostById(params['id'])
         }
       }),
-      tap(sauce => {
-        if (sauce) {
-          this.sauce = sauce;
-          this.initModifyForm(sauce);
+      tap(post => {
+        if (post) {
+          this.post = post;
+          this.initModifyForm(post);
           this.loading = false;
         }
       }),
@@ -52,30 +52,30 @@ export class PostsFormComponent implements OnInit {
   }
 
   initEmptyForm() {
-    this.sauceForm = this.formBuilder.group({
+    this.postForm = this.formBuilder.group({
       name: [null, Validators.required],
       description: [null, Validators.required],
       image: [null, Validators.required],
     });
   }
 
-  initModifyForm(sauce: Post) {
-    this.sauceForm = this.formBuilder.group({
-      name: [sauce.name, Validators.required],
-      description: [sauce.description, Validators.required],
-      image: [sauce.imageUrl, Validators.required],
+  initModifyForm(post: Post) {
+    this.postForm = this.formBuilder.group({
+      name: [post.name, Validators.required],
+      description: [post.description, Validators.required],
+      image: [post.imageUrl, Validators.required],
     });
-    this.imagePreview = this.sauce.imageUrl;
+    this.imagePreview = this.post.imageUrl;
   }
 
   onSubmit() {
     this.loading = true;
-    const newSauce = new Post();
-    newSauce.name = this.sauceForm.get('name')!.value;
-    newSauce.description = this.sauceForm.get('description')!.value;
-    newSauce.userId = this.auth.getUserId();
+    const newPost = new Post();
+    newPost.name = this.postForm.get('name')!.value;
+    newPost.description = this.postForm.get('description')!.value;
+    newPost.userId = this.auth.getUserId();
     if (this.mode === 'new') {
-      this.sauces.createPost(newSauce, this.sauceForm.get('image')!.value).pipe(
+      this.Post.createPost(newPost, this.postForm.get('image')!.value).pipe(
         tap(({ message }) => {
           console.log(message);
           this.loading = false;
@@ -89,7 +89,7 @@ export class PostsFormComponent implements OnInit {
         })
       ).subscribe();
     } else if (this.mode === 'edit') {
-      this.sauces.modifyPost(this.sauce._id, newSauce, this.sauceForm.get('image')!.value).pipe(
+      this.Post.modifyPost(this.post._id, newPost, this.postForm.get('image')!.value).pipe(
         tap(({ message }) => {
           console.log(message);
           this.loading = false;
@@ -107,8 +107,8 @@ export class PostsFormComponent implements OnInit {
 
   onFileAdded(event: Event) {
     const file = (event.target as HTMLInputElement).files![0];
-    this.sauceForm.get('image')!.setValue(file);
-    this.sauceForm.updateValueAndValidity();
+    this.postForm.get('image')!.setValue(file);
+    this.postForm.updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string;

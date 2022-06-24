@@ -1,5 +1,5 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
-<form [formGroup]="sauceForm" *ngIf="!loading">
+<form [formGroup]="postForm" *ngIf="!loading">
   <div class="form-group">
     <label for="name">Name</label>
     <input type="text" class="form-control" id="name" formControlName="name">
@@ -13,5 +13,5 @@
     <button mat-raised-button color="primary" (click)="imageInput.click()">ADD IMAGE</button>
     <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
   </div>
-  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="sauceForm.invalid">SUBMIT</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="postForm.invalid">SUBMIT</button>
 </form>

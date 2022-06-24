@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Observable, shareReplay } from 'rxjs';
-import {booleanReturn} from "../interfaces/boolean.interface";
 
 @Component({
   selector: 'app-header',
