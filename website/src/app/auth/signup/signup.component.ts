@@ -34,7 +34,7 @@ export class SignupComponent implements OnInit {
       switchMap(() => this.auth.loginUser(email, password)),
       tap(() => {
         this.loading = false;
-        this.router.navigate(['/sauces']);
+        this.router.navigate(['/posts']);
       }),
       catchError(err => {
         this.loading = false;

@@ -1,27 +1,19 @@
-# MyApp
+#Project  7: Creer un réseaux social d'entreprise
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.0.
 
-## Development server
+installé sur votre machine:
+Node.js (et donc npm),
+Git.
+Créer un dossier vide et cloner ce repository à l'intérieur:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Clonez ce repository.
+git clone git@github.com:mathoin33/P7_rebolloso_mathieu-github.io.git
 
-## Code scaffolding
+Depuis le dossier core-api, télécharger et installer Node.js
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Lancer le serveur avec nodemon server Le serveur sera accessible sur http://localhost:3000/ L'application va se recharger automatiquement si vous modifiez un fichier source.
 
-## Build
+Depuis le dossier website, Installer @Angular/CLI avec npm install -g @angular/cli Installer node-sass avec npm install node-sass Lancer node avec npm start Rendez-vous sur http://localhost:4200/
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

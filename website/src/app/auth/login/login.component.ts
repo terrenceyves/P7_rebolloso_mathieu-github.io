@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loading!: boolean;
   errorMsg!: string;
-
+//injection des services
   constructor(private formBuilder: FormBuilder,
               private auth: AuthService,
               private router: Router) { }
