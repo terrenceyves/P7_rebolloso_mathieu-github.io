@@ -74,6 +74,11 @@ export class PostsService {
     }
   }
 
+  /**
+   * Permet la suppresion d'un post en prenant un paramètre <id>
+   * @route http://localhost:3000/api/posts/
+   * @param id
+   */
   deletePost(id: string) {
     return this.http.delete<{ message: string }>('http://localhost:3000/api/posts/' + id).pipe(
       catchError(error => throwError(error.error.message))

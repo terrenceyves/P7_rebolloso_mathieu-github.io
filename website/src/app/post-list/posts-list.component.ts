@@ -47,7 +47,7 @@ export class PostsListComponent implements OnInit {
     );
     this.Post.getPosts();
   }
-
+//event binding
   onClickPost(id: string) {
     this.router.navigate(['/post', id]);
   }

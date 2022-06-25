@@ -67,7 +67,7 @@ export class PostsFormComponent implements OnInit {
     });
     this.imagePreview = this.post.imageUrl;
   }
-
+//event binding
   onSubmit() {
     this.loading = true;
     const newPost = new Post();
@@ -104,7 +104,7 @@ export class PostsFormComponent implements OnInit {
       ).subscribe();
     }
   }
-
+//event binding
   onFileAdded(event: Event) {
     const file = (event.target as HTMLInputElement).files![0];
     this.postForm.get('image')!.setValue(file);

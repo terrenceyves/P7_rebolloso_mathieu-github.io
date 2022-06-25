@@ -25,7 +25,7 @@ export class SignupComponent implements OnInit {
       password: [null, Validators.required]
     });
   }
-
+//event binding
   onSignup() {
     this.loading = true;
     const email = this.signupForm.get('email')!.value;

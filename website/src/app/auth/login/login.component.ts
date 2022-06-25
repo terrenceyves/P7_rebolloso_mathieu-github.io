@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
       password: [null, Validators.required]
     });
   }
-
+//event binding
   onLogin() {
     this.loading = true;
     const email = this.loginForm.get('email')!.value;

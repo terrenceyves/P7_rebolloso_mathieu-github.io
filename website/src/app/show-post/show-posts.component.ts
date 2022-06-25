@@ -47,7 +47,7 @@ export class ShowPostsComponent implements OnInit {
       })
     );
   }
-
+// event binding
   onLike() {
     if (this.disliked) {
       return;
@@ -65,7 +65,7 @@ export class ShowPostsComponent implements OnInit {
       )),
     ).subscribe();
   }
-
+//event binding
   onDislike() {
     if (this.liked) {
       return;
@@ -83,18 +83,18 @@ export class ShowPostsComponent implements OnInit {
       )),
     ).subscribe();
   }
-
+//ertour en arriere event binding
   onBack() {
     this.router.navigate(['/posts']);
   }
-
+//modification on event
   onModify() {
     this.post$.pipe(
       take(1),
       tap(post => this.router.navigate(['/update-post', post._id]))
     ).subscribe();
   }
-
+//event binding
   onDelete() {
     this.loading = true;
     let alert = confirm("Etes vous sur de vouloir supprimer ce post ?");

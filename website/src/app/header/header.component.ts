@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
     );
     this.isAdmin$ = this.auth.isAdmin$;
   }
-
+//event binding
   onLogout() {
     this.auth.logout();
   }
